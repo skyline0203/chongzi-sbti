@@ -1,0 +1,153 @@
+<!--pages/result/result.wxml-->
+<!--
+  ============================================================
+  结果页界面 — 显示鉴定结果
+  ============================================================
+  
+  页面有两个状态：
+  1. 锁定状态（unlocked = false）→ 显示遮罩层，要求看广告或直接解锁
+  2. 解锁状态（unlocked = true）→ 显示完整结果海报
+  
+  结果海报包含：
+  - 类型标签 + emoji
+  - 详细描述
+  - 特质标签
+  - 各项得分柱状图
+  - 建议
+  ============================================================
+-->
+
+<view class="page">
+  <!-- 
+    遮罩层 — 解锁前显示 
+    wx:if="{{!unlocked}}" = 如果没解锁就显示这个
+    fixed 定位覆盖整个屏幕
+  -->
+  <view class="overlay" wx:if="{{!unlocked}}">
+    <view class="overlay-card">
+      <view class="overlay-icon">🔒</view>
+      <view class="overlay-title">结 果 已 生 成</view>
+      <view class="overlay-desc">你的精神状态鉴定已完成</view>
+      <view class="overlay-divider"></view>
+      <view class="unlock-btn" bindtap="watchAd">
+        <text class="unlock-icon">📺</text>
+        <text class="unlock-text">观看视频解锁结果</text>
+      </view>
+      <view class="unlock-alt" bindtap="manualUnlock">
+        或点击此处直接查看
+      </view>
+    </view>
+  </view>
+
+  <!-- 
+    结果内容 — 解锁后显示 
+    wx:if="{{unlocked}}" = 如果已解锁就显示这个
+  -->
+  <view class="result-content" wx:if="{{unlocked}}">
+    <!-- 顶部装饰条 -->
+    <view class="result-top-bar">
+      <text>⚡ 鉴定结果 ⚡</text>
+    </view>
+
+    <!-- 
+      海报区域 
+      id="poster" = 用于后续 canvas 截图保存
+    -->
+    <view class="poster" id="poster">
+      <!-- 海报头部（黑色背景） -->
+      <view class="poster-header">
+        <view class="poster-badge">{{resultData.typeShort}}</view>
+        <view class="poster-title">艾 斯 B T I</view>
+        <view class="poster-subtitle">职 业 精 神 鉴 定</view>
+      </view>
+
+      <!-- 大字结果 -->
+      <view class="poster-result">
+        <view class="result-label">{{resultData.title}}</view>
+        <view class="result-type">
+          <text class="result-emoji">{{resultData.emoji}}</text>
+          <text class="result-type-text">{{resultData.type}}</text>
+        </view>
+        <view class="result-slogan">{{resultData.slogan}}</view>
+      </view>
+
+      <!-- 分隔线（左右线条 + 中间文字） -->
+      <view class="poster-divider">
+        <view class="divider-line"></view>
+        <view class="divider-text">鉴 定 详 情</view>
+        <view class="divider-line"></view>
+      </view>
+
+      <!-- 详细描述 -->
+      <view class="poster-desc">
+        <text>{{resultData.desc}}</text>
+      </view>
+
+      <!-- 
+        特质标签 
+        wx:for 循环渲染 traits 数组中的每个标签
+      -->
+      <view class="poster-traits">
+        <view class="trait-item" wx:for="{{resultData.traits}}" wx:key="index">
+          <text class="trait-dot">■</text>
+          <text>{{item}}</text>
+        </view>
+      </view>
+
+      <!-- 
+        分数分布柱状图
+        scoreList 包含 4 个对象，每个有 label、percent、count
+        score-bar-fill 的 width 用 percent 控制
+      -->
+      <view class="poster-scores">
+        <view class="score-title">— 各项得分 —</view>
+        <view class="score-bars">
+          <view class="score-row" wx:for="{{scoreList}}" wx:key="type">
+            <text class="score-label">{{item.label}}</text>
+            <view class="score-bar-bg">
+              <view class="score-bar-fill" style="width: {{item.percent}}%"></view>
+            </view>
+            <text class="score-num">{{item.count}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 建议 -->
+      <view class="poster-advice">
+        <text class="advice-label">{{resultData.advice}}</text>
+      </view>
+
+      <!-- 海报底部 -->
+      <view class="poster-footer">
+        <view class="footer-logo">翀子出品</view>
+        <view class="footer-year">2026 · 艾斯BTI</view>
+      </view>
+    </view>
+
+    <!-- 
+      操作按钮组
+      - 保存海报：保存到手机相册
+      - 分享：转发给微信好友
+    -->
+    <view class="action-buttons">
+      <view class="action-btn action-save" bindtap="savePoster">
+        <text class="action-icon">💾</text>
+        <text>保存海报到相册</text>
+      </view>
+      <view class="action-btn action-share" bindtap="shareResult">
+        <text class="action-icon">📤</text>
+        <text>分享给损友</text>
+      </view>
+    </view>
+
+    <!-- 重新测试按钮 -->
+    <view class="retry-btn" bindtap="retryQuiz">
+      ↺ 重新鉴定
+    </view>
+
+    <!-- 底部 -->
+    <view class="page-footer">
+      <text>翀子小工具 · 艾斯BTI 职业精神鉴定</text>
+    </view>
+  </view>
+</view>
