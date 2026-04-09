@@ -1,0 +1,102 @@
+<!--pages/index/index.wxml-->
+<!-- 
+  ============================================================
+  首页 — 小程序打开后看到的第一个页面
+  ============================================================
+  
+  WXML 是微信小程序的界面描述语言，类似 HTML。
+  
+  基本概念：
+  - <view>  ≈ HTML 的 <div>（一个方块容器）
+  - <text>  ≈ HTML 的 <span>（一段文字）
+  - {{变量}} ≈ 把 JS 中的数据显示在这里（数据绑定）
+  - bindtap="函数名" ≈ 点击时触发 JS 中的哪个函数
+  
+  你会看到 wx:if="{{条件}}"，这是条件渲染：
+  - 条件为 true → 显示这个元素
+  - 条件为 false → 隐藏这个元素
+  ============================================================
+-->
+
+<view class="page">
+  <!-- 
+    顶部装饰条 
+    纯黑色背景 + 白色文字，大字报风格
+  -->
+  <view class="top-bar">
+    <view class="bar-text">⚡ 职 业 精 神 鉴 定 ⚡</view>
+  </view>
+
+  <!-- 
+    IP 头像区域 
+    用 emoji 代替真实头像，保持风格统一
+  -->
+  <view class="avatar-section">
+    <view class="avatar-border">
+      <view class="avatar-placeholder">
+        <text class="avatar-emoji">🐦‍🔥</text>
+        <text class="avatar-label">翀 子</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 
+    大字标题区域 
+    三个层级：主标题 → 分隔线 → 副标题 → 小字描述
+  -->
+  <view class="title-section">
+    <view class="title-line-1">《艾 斯 B T I》</view>
+    <view class="title-divider"></view>
+    <view class="title-line-2">职 业 精 神 鉴 定</view>
+    <view class="title-sub">— 翀子出品 · 发疯文学巅峰之作 —</view>
+  </view>
+
+  <!-- 
+    状态标签 
+    flex-wrap 让标签自动换行
+  -->
+  <view class="tags-section">
+    <view class="tag">打工人</view>
+    <view class="tag">大学生</view>
+    <view class="tag">研究生</view>
+    <view class="tag">社畜</view>
+    <view class="tag">摸鱼达人</view>
+  </view>
+
+  <!-- 
+    登录状态提示 
+    wx:if 根据 isLoggedIn 变量决定是否显示
+    已登录 → 显示欢迎语
+    未登录 → 显示提示（但不强制，可以先看题再登录）
+  -->
+  <view class="login-hint" wx:if="{{isLoggedIn}}">
+    <text class="login-hint-text">✓ 已登录：{{userName}}</text>
+  </view>
+
+  <!-- 
+    开始按钮 
+    bindtap="startQuiz" → 点击时执行 startQuiz() 函数
+    该函数会先检查登录状态，再决定跳转到登录页还是答题页
+  -->
+  <view class="btn-section">
+    <view class="start-btn" bindtap="startQuiz">
+      <text class="btn-text">开 始 鉴 定</text>
+      <text class="btn-arrow">▶</text>
+    </view>
+  </view>
+
+  <!-- 
+    底部信息区域 
+    包含答题信息 + 版权信息
+    
+    【管理员隐藏入口】
+    底部版权文字 bindtap="onFooterTap"
+    连续点击 5 次会触发管理员登录入口
+    这是常见的"彩蛋"设计模式
+  -->
+  <view class="footer">
+    <view class="footer-line">共 15 道题 · 约需 2 分钟</view>
+    <view class="footer-line">测测你的精神状态在哪个阶段</view>
+    <view class="footer-credit" bindtap="onFooterTap">翀子小工具 © 2026</view>
+  </view>
+</view>
