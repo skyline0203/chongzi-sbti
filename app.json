@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/quiz/quiz",
+    "pages/result/result"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "艾斯BTI",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#FFFFFF"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,28 @@
+/**app.wxss**/
+page {
+  background-color: #FFFFFF;
+  font-family: "SimHei", "Heiti SC", "Microsoft YaHei", monospace;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+/* 全局大字报风格 */
+.text-bold {
+  font-weight: 900;
+}
+
+.border-box {
+  border: 2px solid #000000;
+  border-radius: 0;
+}
+
+/* 像素风字体 */
+@font-face {
+  font-family: 'PixelFont';
+  src: url('data:font/woff2;base64,') format('woff2');
+}
+
+.pixel-font {
+  font-family: "SimHei", "Heiti SC", monospace;
+  letter-spacing: 2px;
+}

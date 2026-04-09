@@ -1,0 +1,91 @@
+<!--pages/login/login.wxml-->
+<!--
+  ============================================================
+  登录页 — 用户登录 / 管理员登录
+  ============================================================
+  
+  这个页面有两种模式：
+  1. 普通用户登录 → 点击按钮微信授权即可
+  2. 管理员登录 → 微信授权 + 服务端验证 openid 白名单
+  
+  通过 URL 参数 role=admin 区分：
+  - /pages/login/login          → 普通用户登录
+  - /pages/login/login?role=admin → 管理员登录
+  ============================================================
+-->
+
+<view class="page">
+  <!-- 顶部装饰条 -->
+  <view class="top-bar">
+    <view class="bar-text">⚡ {{isAdmin ? '管 理 员 登 录' : '用 户 登 录'}} ⚡</view>
+  </view>
+
+  <!-- 登录卡片 -->
+  <view class="login-card">
+    <!-- 图标 -->
+    <view class="login-icon">
+      <text>{{isAdmin ? '🔐' : '🐦‍🔥'}}</text>
+    </view>
+
+    <!-- 标题 -->
+    <view class="login-title">
+      {{isAdmin ? '管理员身份验证' : '登录艾斯BTI'}}
+    </view>
+
+    <!-- 描述 -->
+    <view class="login-desc">
+      <text wx:if="{{isAdmin}}">
+        请使用管理员微信授权登录，系统将验证您的管理员权限。
+      </text>
+      <text wx:else>
+        授权微信登录，开始你的职业精神鉴定之旅。
+      </text>
+    </view>
+
+    <!-- 分隔线 -->
+    <view class="login-divider"></view>
+
+    <!-- 
+      微信登录按钮
+      open-type="getUserInfo" 是微信小程序专用的按钮类型
+      点击后会弹出微信授权弹窗，用户同意后触发 getuserinfo 事件
+    -->
+    <button
+      class="login-btn"
+      open-type="getUserInfo"
+      bindgetuserinfo="onGetUserInfo"
+      wx:if="{{!loading}}"
+    >
+      <text class="login-btn-icon">💬</text>
+      <text class="login-btn-text">
+        {{isAdmin ? '管理员微信登录' : '微信一键登录'}}
+      </text>
+    </button>
+
+    <!-- 加载中状态 -->
+    <view class="login-btn loading-btn" wx:if="{{loading}}">
+      <text class="login-btn-text">登录中...</text>
+    </view>
+
+    <!-- 提示文字 -->
+    <view class="login-tips">
+      <text class="tips-text">登录即表示同意《用户协议》和《隐私政策》</text>
+      <text class="tips-text">你的信息仅存储在本地，不会上传云端</text>
+    </view>
+
+    <!-- 管理员模式提示 -->
+    <view class="admin-hint" wx:if="{{isAdmin}}">
+      <text class="admin-hint-text">⚠️ 仅限授权管理员使用</text>
+    </view>
+  </view>
+
+  <!-- 返回按钮 -->
+  <view class="back-btn" bindtap="goBack">
+    <text>← 返回首页</text>
+  </view>
+
+  <!-- 底部 -->
+  <view class="footer">
+    <text class="footer-text">翀子小工具 © 2026</text>
+  </view>
+</view>
